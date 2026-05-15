@@ -1,8 +1,65 @@
 .addUser {
     background-color: white;
-    width: 25%;
-    margin: 50px auto;
-    padding: 40px;
+    width: min(100% - 2rem, 520px);
+    margin: clamp(1rem, 6vw, 3rem) auto;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border-radius: 16px;
+    box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.addUser h3 {
+    margin: 1rem 0 1.5rem;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+}
+
+.addUserForm {
+    display: grid;
+    gap: 1rem;
+}
+
+.addUser .form-group {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.addUser .form-group label {
+    font-weight: 600;
+}
+
+.addUser .form-control {
+    min-height: 48px;
+    padding: 0.75rem 0.9rem;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.addUser .btn {
+    min-height: 46px;
+}
+
+.addUser .btn-primary {
+    margin-top: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    .addUser {
+        width: min(100% - 1.5rem, 640px);
+        border-radius: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .addUser {
+        width: calc(100% - 1rem);
+        margin: 0.75rem auto;
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .addUser h3 {
+        margin: 0.9rem 0 1.2rem;
+    }
+
+    .addUser .btn {
+        width: 100%;
+    }
 }

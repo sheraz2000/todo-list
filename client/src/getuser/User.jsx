@@ -46,54 +46,53 @@ const User = () => {
     <div className="userTable">
 
       {/* Add User Button */}
-      <Link to="/add" className="btn btn-primary">
+      <Link to="/add" className="btn btn-primary userTable__addButton">
         Add User <i className="fa-solid fa-user-plus"></i>
       </Link>
 
       {/* Table */}
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>S.N.</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user._id}>
-              <td>{index + 1}</td>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.address}</td>
-              <td>
-
-                {/* Edit Button */}
-                <Link
-                  to={`/update/${user._id}`}
-                  className="btn btn-primary"
-                >
-                  Edit
-                </Link>
-
-                {/* Delete Button */}
-                <button
-                  onClick={() => deleteUser(user._id)}
-                  className="btn btn-danger"
-                  style={{ marginLeft: "10px" }}
-                >
-                  Delete
-                </button>
-
-              </td>
+      <div className="userTable__scroll">
+        <table className="table table-bordered userTable__table">
+          <thead>
+            <tr>
+              <th>S.N.</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
+          </thead>
 
-      </table>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={user._id}>
+                <td data-label="S.N.">{index + 1}</td>
+                <td data-label="Name">{user.name}</td>
+                <td data-label="Email">{user.email}</td>
+                <td data-label="Address">{user.address}</td>
+                <td data-label="Actions">
+                  <div className="userTable__actions">
+                    <Link
+                      to={`/update/${user._id}`}
+                      className="btn btn-primary userTable__actionButton"
+                    >
+                      Edit
+                    </Link>
+
+                    <button
+                      onClick={() => deleteUser(user._id)}
+                      className="btn btn-danger userTable__actionButton"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+      </div>
     </div>
   );
 };

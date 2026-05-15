@@ -1,26 +1,154 @@
 .userTable {
-    width: 60%;
-    margin: 50px auto;
+    width: min(100% - 2rem, 1160px);
+    margin: clamp(1rem, 6vw, 3rem) auto;
     background-color: white;
-    padding: 50px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 8px;
+    padding: clamp(1rem, 4vw, 2.5rem);
+    border-radius: 16px;
+    box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.12);
 }
 
-.userTable table {
+.userTable__addButton {
+    min-height: 46px;
+}
+
+.userTable__scroll {
     width: 100%;
-    margin-top: 20px; 
+    overflow-x: auto;
 }
 
-.userTable table thead th {
-    backround-color: darkcyan;
+.userTable table,
+.userTable__table {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.userTable table thead th,
+.userTable__table thead th {
+    background-color: #f5f8fc;
     color: black;
     text-align: center;
-
+    white-space: nowrap;
 }
 
-.userTable table tbody tr {
+.userTable table tbody tr,
+.userTable__table tbody tr {
     padding: 10px;
     text-align: center;
     vertical-align: middle;
+}
+
+.userTable__table td {
+    word-break: break-word;
+    vertical-align: middle;
+}
+
+.userTable__actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.userTable__actionButton {
+    min-width: 86px;
+}
+
+@media (max-width: 992px) {
+    .userTable {
+        width: min(100% - 1.5rem, 900px);
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .userTable {
+        width: calc(100% - 1rem);
+        margin: 0.75rem auto;
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .userTable__addButton {
+        width: 100%;
+    }
+
+    .userTable__scroll {
+        overflow-x: visible;
+    }
+
+    .userTable__table,
+    .userTable__table thead,
+    .userTable__table tbody,
+    .userTable__table tr,
+    .userTable__table td {
+        display: block;
+        width: 100%;
+    }
+
+    .userTable__table {
+        border: none;
+    }
+
+    .userTable__table thead {
+        display: none;
+    }
+
+    .userTable__table tbody {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .userTable__table tbody tr {
+        border: 1px solid #d8e1eb;
+        border-radius: 12px;
+        padding: 0.85rem;
+        background-color: #ffffff;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .userTable__table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.45rem 0;
+        border: none;
+        text-align: left;
+    }
+
+    .userTable__table tbody td::before {
+        content: attr(data-label);
+        min-width: 72px;
+        font-weight: 700;
+        color: #4f5d6b;
+    }
+
+    .userTable__actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .userTable__actionButton {
+        flex: 1 1 120px;
+    }
+}
+
+@media (max-width: 420px) {
+    .userTable__table tbody td {
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .userTable__table tbody td::before {
+        min-width: 0;
+    }
+
+    .userTable__actions {
+        flex-direction: column;
+    }
+
+    .userTable__actionButton {
+        width: 100%;
+    }
 }
