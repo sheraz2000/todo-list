@@ -6,21 +6,24 @@ import toast from "react-hot-toast";
 
 const User = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch users
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+
       try {
         const response = await api.get("/api/user");
-        setUsers(response.data);
+        setUsers(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
-        if (error.response?.status === 404) {
-          setUsers([]);
-          return;
-        }
         console.log("Error while fetching data", error);
+        setUsers([]);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchData();
   }, []);
 
@@ -70,31 +73,41 @@ const User = () => {
           </thead>
 
           <tbody>
-            {users.map((user, index) => (
-              <tr key={user._id}>
-                <td data-label="S.N.">{index + 1}</td>
-                <td data-label="Name">{user.name}</td>
-                <td data-label="Email">{user.email}</td>
-                <td data-label="Address">{user.address}</td>
-                <td data-label="Actions">
-                  <div className="userTable__actions">
-                    <Link
-                      to={`/update/${user._id}`}
-                      className="btn btn-primary userTable__actionButton"
-                    >
-                      Edit
-                    </Link>
-
-                    <button
-                      onClick={() => deleteUser(user._id)}
-                      className="btn btn-danger userTable__actionButton"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
+            {loading ? (
+              <tr>
+                <td colSpan="5">Loading users...</td>
               </tr>
-            ))}
+            ) : Array.isArray(users) && users.length > 0 ? (
+              users.map((user, index) => (
+                <tr key={user._id}>
+                  <td data-label="S.N.">{index + 1}</td>
+                  <td data-label="Name">{user.name}</td>
+                  <td data-label="Email">{user.email}</td>
+                  <td data-label="Address">{user.address}</td>
+                  <td data-label="Actions">
+                    <div className="userTable__actions">
+                      <Link
+                        to={`/update/${user._id}`}
+                        className="btn btn-primary userTable__actionButton"
+                      >
+                        Edit
+                      </Link>
+
+                      <button
+                        onClick={() => deleteUser(user._id)}
+                        className="btn btn-danger userTable__actionButton"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5">No users found</td>
+              </tr>
+            )}
           </tbody>
 
         </table>
