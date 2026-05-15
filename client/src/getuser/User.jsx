@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./user.css";
-import axios from "axios";
+import api from "../api";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -11,9 +11,13 @@ const User = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/user");
+        const response = await api.get("/api/user");
         setUsers(response.data);
       } catch (error) {
+        if (error.response?.status === 404) {
+          setUsers([]);
+          return;
+        }
         console.log("Error while fetching data", error);
       }
     };
@@ -23,8 +27,8 @@ const User = () => {
   // Delete user
   const deleteUser = async (userId) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/user/${userId}`
+      const response = await api.delete(
+        `/api/user/${userId}`
       );
 
       // Remove from UI
@@ -38,7 +42,9 @@ const User = () => {
 
     } catch (error) {
       console.log(error);
-      toast.error("Failed to delete user");
+      toast.error(
+        error.response?.data?.message || "Failed to delete user"
+      );
     }
   };
 

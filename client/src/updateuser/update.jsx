@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "./update.css";
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from "axios";
+import api from "../api";
 import toast from "react-hot-toast";
 
 const UpdateUser = () => {
@@ -27,8 +27,8 @@ const UpdateUser = () => {
 
   // Get user by ID
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/user/${id}`)
+    api
+      .get(`/api/user/${id}`)
       .then((response) => {
         setUser(response.data);
       })
@@ -42,8 +42,8 @@ const UpdateUser = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.put(
-        `http://localhost:8000/api/user/${id}`,
+      const response = await api.put(
+        `/api/user/${id}`,
         user
       );
 
@@ -51,7 +51,9 @@ const UpdateUser = () => {
       navigate("/");
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error(
+        error.response?.data?.message || "Something went wrong"
+      );
     }
   };
 

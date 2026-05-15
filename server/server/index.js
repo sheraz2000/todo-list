@@ -8,9 +8,24 @@ const app = express();
 
 dotenv.config();
 
+const allowedOrigins = (process.env.CORS_ORIGIN || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 //  Middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("CORS origin not allowed"));
+    },
+  })
+);
 
 // Routes
 app.use("/api/user", userRoute);

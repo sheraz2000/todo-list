@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./adduser.css";
 import { Link, useNavigate } from 'react-router-dom';
-import axios from "axios";
+import api from "../api";
 import toast from "react-hot-toast";
 
 const AddUser = () => {
@@ -27,16 +27,22 @@ const AddUser = () => {
   // Handle form submit
   const submitForm = async (e) => {
     e.preventDefault();
-    await axios
-.post("http://localhost:8000/api/user", user)
-.then((response) => {
-      toast.success(response.data.message, { position: "top-right" });
-      navigate("/"); 
-})
-   .catch ((error) => {
-    console.log(error);
-   });
-    
+
+    try {
+      const response = await api.post("/api/user", user);
+      toast.success(response.data.message || "User added successfully", {
+        position: "top-right"
+      });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error.response?.data?.message ||
+        error.message ||
+        "Could not connect to the server",
+        { position: "top-right" }
+      );
+    }
   };
 
   return (
