@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./user.css";
-import api from "../api";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -14,7 +14,9 @@ const User = () => {
       setLoading(true);
 
       try {
-        const response = await api.get("/api/user");
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/user`
+        );
         setUsers(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.log("Error while fetching data", error);
@@ -30,8 +32,8 @@ const User = () => {
   // Delete user
   const deleteUser = async (userId) => {
     try {
-      const response = await api.delete(
-        `/api/user/${userId}`
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/user/${userId}`
       );
 
       // Remove from UI

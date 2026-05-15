@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./adduser.css";
 import { Link, useNavigate } from 'react-router-dom';
-import api from "../api";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 const AddUser = () => {
@@ -29,7 +29,10 @@ const AddUser = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post("/api/user", user);
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/user`,
+        user
+      );
       toast.success(response.data.message || "User added successfully", {
         position: "top-right"
       });

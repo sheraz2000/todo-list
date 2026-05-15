@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "./update.css";
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import api from "../api";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 const UpdateUser = () => {
@@ -27,8 +27,8 @@ const UpdateUser = () => {
 
   // Get user by ID
   useEffect(() => {
-    api
-      .get(`/api/user/${id}`)
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/user/${id}`)
       .then((response) => {
         setUser(response.data);
       })
@@ -42,8 +42,8 @@ const UpdateUser = () => {
     e.preventDefault();
 
     try {
-      const response = await api.put(
-        `/api/user/${id}`,
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/user/${id}`,
         user
       );
 
